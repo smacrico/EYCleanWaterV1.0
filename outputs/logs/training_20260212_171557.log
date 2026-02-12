@@ -1,0 +1,14 @@
+2026-02-12 17:15:57 - root - INFO - Logging to file: outputs\logs\training_20260212_171557.log
+2026-02-12 17:15:57 - root - INFO - ================================================================================
+2026-02-12 17:15:57 - root - INFO - EY WATER QUALITY CHALLENGE - MODEL TRAINING
+2026-02-12 17:15:57 - root - INFO - ================================================================================
+2026-02-12 17:15:57 - root - INFO - Config file: configs/train_config.yaml
+2026-02-12 17:15:57 - root - INFO - Output directory: models
+2026-02-12 17:15:57 - root - INFO - Training targets: ['Alkalinity as CaCO3 (mg/L)', 'Electrical Conductivity (µS/cm)', 'Dissolved Reactive Phosphorus (mg/L)']
+2026-02-12 17:15:57 - root - INFO - 
+================================================================================
+2026-02-12 17:15:57 - root - INFO - STEP 1: LOADING DATA
+2026-02-12 17:15:57 - root - INFO - ================================================================================
+2026-02-12 17:15:57 - src.data_loading - INFO - Loading training data from data\raw\training_data.parquet
+2026-02-12 17:15:57 - src.data_loading - ERROR - Training data file not found: data\raw\training_data.parquet
+2026-02-12 17:15:57 - root - ERROR - Failed to load data: [Errno 2] No such file or directory: 'data\\raw\\training_data.parquet'

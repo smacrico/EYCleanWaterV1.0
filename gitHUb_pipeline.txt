@@ -1,0 +1,103 @@
+name: EY-Water-Quality-CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+  workflow_dispatch:
+
+jobs:
+
+  install-and-test:
+    name: Install Environment, Lint, Test, Train, Validate
+    runs-on: ubuntu-latest
+
+    steps:
+    # ---------------------------
+    # Checkout Repository
+    # ---------------------------
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # ---------------------------
+    # Set up Python
+    # ---------------------------
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    # ---------------------------
+    # Install system dependencies (for rasterio, geopandas)
+    # ---------------------------
+    - name: Install system libs
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gdal-bin \
+          libgdal-dev \
+          python3-gdal \
+          libspatialindex-dev
+
+    # ---------------------------
+    # Install Python dependencies
+    # ---------------------------
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    # ---------------------------
+    # Lint Code
+    # ---------------------------
+    - name: Run flake8 linting
+      run: |
+        pip install flake8
+        flake8 src || true
+
+    # ---------------------------
+    # Run Tests (If you add tests/)
+    # ---------------------------
+    - name: Run tests
+      run: |
+        if [ -d "tests" ]; then
+          pip install pytest
+          pytest -q
+        else
+          echo "No tests/ directory detected — skipping."
+        fi
+
+    # ---------------------------
+    # Train Models (Dry Run)
+    # ---------------------------
+    - name: Train models
+      run: |
+        if [ -f "configs/train_config.yaml" ]; then
+          echo "Running training..."
+          ey-train --config configs/train_config.yaml --no-submission
+        else
+          echo "No config file detected — skipping training."
+        fi
+
+    # ---------------------------
+    # Build Submission File
+    # ---------------------------
+    - name: Generate Submission
+      run: |
+        if [ -f "configs/train_config.yaml" ]; then
+          echo "Generating submission..."
+          ey-train --config configs/train_config.yaml --write-submission
+        fi
+
+    # ---------------------------
+    # Upload Submission Artifact
+    # ---------------------------
+    - name: Upload submission artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ey-water-quality-submission
+        path: outputs/submissions/*.csv
+        retention-days: 14

@@ -1,0 +1,16 @@
+2026-02-12 18:37:33 - root - INFO - Logging to file: outputs\logs\training_20260212_183733.log
+2026-02-12 18:37:33 - root - INFO - ================================================================================
+2026-02-12 18:37:33 - root - INFO - EY WATER QUALITY CHALLENGE - MODEL TRAINING
+2026-02-12 18:37:33 - root - INFO - ================================================================================
+2026-02-12 18:37:33 - root - INFO - Config file: configs/train_config.yaml
+2026-02-12 18:37:33 - root - INFO - Output directory: models
+2026-02-12 18:37:33 - root - INFO - Training targets: ['Alkalinity as CaCO3 (mg/L)', 'Electrical Conductivity (µS/cm)', 'Dissolved Reactive Phosphorus (mg/L)']
+2026-02-12 18:37:33 - root - INFO - 
+================================================================================
+2026-02-12 18:37:33 - root - INFO - STEP 1: LOADING DATA
+2026-02-12 18:37:33 - root - INFO - ================================================================================
+2026-02-12 18:37:33 - src.data_loading - INFO - Loading training data from data\raw\training_data.parquet
+2026-02-12 18:37:33 - src.data_loading - INFO - Loaded 1207087 training samples with 17 columns
+2026-02-12 18:37:33 - src.data_loading - INFO - Loading validation data from data\raw\validation_data.parquet
+2026-02-12 18:37:33 - src.data_loading - ERROR - Validation data file not found: data\raw\validation_data.parquet
+2026-02-12 18:37:33 - root - ERROR - Failed to load data: [Errno 2] No such file or directory: 'data\\raw\\validation_data.parquet'

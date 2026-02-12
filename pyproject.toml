@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ey-water-quality-challenge"
+version = "1.0.0"
+description = "EY 2026 AI & Data Challenge - Water Quality Prediction"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "EY Challenge Team", email = "team@example.com"}
+]
+keywords = ["machine-learning", "water-quality", "xgboost", "geospatial", "ey-challenge"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+dependencies = [
+    "numpy>=1.21.0",
+    "pandas>=1.3.0",
+    "scikit-learn>=1.0.0",
+    "xgboost>=1.5.0",
+    "matplotlib>=3.4.0",
+    "seaborn>=0.11.0",
+    "rasterio>=1.2.0",
+    "geopandas>=0.10.0",
+    "shapely>=1.8.0",
+    "pyproj>=3.2.0",
+    "optuna>=3.0.0",
+    "joblib>=1.1.0",
+    "pyyaml>=6.0",
+    "snowflake-connector-python>=2.7.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.0.0",
+    "tqdm>=4.62.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+]
+
+[project.scripts]
+ey-train = "src.cli_train:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/ey-water-quality-challenge"
+Repository = "https://github.com/yourusername/ey-water-quality-challenge"
+Documentation = "https://github.com/yourusername/ey-water-quality-challenge#readme"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.setuptools.package-data]
+src = ["*.yaml", "*.yml"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310']
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

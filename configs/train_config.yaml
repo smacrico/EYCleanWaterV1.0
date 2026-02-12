@@ -1,0 +1,121 @@
+# EY AI & Data Challenge - Water Quality Prediction
+# Training Configuration File
+
+# Project Paths
+paths:
+  data_dir: "data"
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  external_data_dir: "data/external"
+  models_dir: "models"
+  outputs_dir: "outputs"
+  logs_dir: "outputs/logs"
+  submissions_dir: "outputs/submissions"
+
+# Data Files
+data_files:
+  training_data: "training_data.parquet"
+  validation_data: "validation_data.parquet"
+  submission_template: "submission_template.csv"
+  engineered_features: "engineered_features.parquet"
+  validation_merged: "validation_merged.parquet"
+
+# External Geospatial Data
+geospatial_files:
+  dem_elevation: "data/external/dem_elevation.tif"
+  slope_map: "data/external/slope_map.tif"
+  worldcover: "data/external/worldcover_esa.tif"
+  hydrology_dir: "data/external/hydrology_layers"
+
+# Target Variables
+targets:
+  - "Alkalinity as CaCO3 (mg/L)"
+  - "Electrical Conductivity (µS/cm)"
+  - "Dissolved Reactive Phosphorus (mg/L)"
+
+# XGBoost Model Parameters (Optimized)
+xgboost_params:
+  max_depth: 9
+  learning_rate: 0.035
+  subsample: 0.82
+  colsample_bytree: 0.78
+  n_estimators: 900
+  min_child_weight: 3
+  reg_alpha: 0.1
+  reg_lambda: 1.1
+  objective: "reg:squarederror"
+  tree_method: "hist"
+  eval_metric: "rmse"
+  random_state: 42
+  n_jobs: -1
+
+# Training Configuration
+training:
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+  early_stopping_rounds: 50
+  verbose: true
+
+# Feature Engineering
+feature_engineering:
+  # Temporal features
+  create_cyclical: true
+  create_month_encoding: true
+  create_day_encoding: true
+  
+  # Landsat indices
+  create_ndvi: true
+  create_ndwi: true
+  create_nbr: true
+  create_evi: true
+  create_savi: true
+  
+  # Climate rolling windows
+  rolling_windows: [7, 14, 30, 60, 90]
+  
+  # Spatial features
+  create_lat_lon_encoding: true
+  create_distance_features: true
+  
+  # Geospatial features
+  extract_elevation: true
+  extract_slope: true
+  extract_landcover: true
+
+# Geospatial Processing
+geospatial:
+  nodata_value: -9999
+  interpolation_method: "bilinear"
+  buffer_distance_km: 5
+
+# Snowflake Configuration (Optional)
+snowflake:
+  enabled: false
+  account: "your_account"
+  user: "your_user"
+  password: "your_password"
+  warehouse: "COMPUTE_WH"
+  database: "EY_CHALLENGE"
+  schema: "WATER_QUALITY"
+  table_prefix: "WQ_"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  save_to_file: true
+
+# Model Evaluation
+evaluation:
+  metrics:
+    - "r2"
+    - "rmse"
+    - "mae"
+  save_feature_importance: true
+  top_features_count: 30
+
+# Submission
+submission:
+  filename_template: "submission_{timestamp}.csv"
+  include_timestamp: true
